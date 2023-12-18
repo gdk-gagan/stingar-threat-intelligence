@@ -2,8 +2,6 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pydeck as pdk
-from timezonefinder import TimezoneFinder
-import pytz
 import warnings
 import glob
 import os
@@ -16,24 +14,6 @@ def set_page_config():
         page_icon='stingar.png'
         #page_icon='🌍'
     )
-
-def convert_utc_to_local(utc_time, lat, lon):
-    '''
-    Function to convert UTC time to local time based on lat and lon
-    '''
-    try:
-        tf = TimezoneFinder()
-        timezone_str = tf.timezone_at(lat=lat, lng=lon)
-        if timezone_str:
-            timezone = pytz.timezone(timezone_str)
-            utc_time = utc_time.replace(tzinfo=pytz.utc)
-            local_time = utc_time.astimezone(timezone)
-            return local_time
-        else:
-            return None
-    except Exception as e:
-        print(f"Error converting UTC to local time: {e}")
-        return None
 
 @st.cache_data
 def load_data():
