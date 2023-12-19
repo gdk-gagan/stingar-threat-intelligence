@@ -357,23 +357,27 @@ def display_map(ip_df_plot, events_by_city_df, globe_df):
     globe_df["app_color"] = globe_df["app"].apply(map_globe_color)
 
     with map1:
+        st.caption('The size of the bubble represents total number of attacks.  \
+                   \nThe color represents average duration of attack.')
         scatter_layer = get_scatter_layer(ip_df_plot)
         view_state = get_pydeck_viewport(longitude=0, latitude=0, zoom=1, min_zoom=1, pitch=0, bearing=0)
         tooltip={"text": "IP: {src_ip}\n Hostname: {hostname}\n Total Events: {total_events}\n  \
                         Attack duration: {peak_duration_sec} seconds \n \
                         ASN: {asn_org}\n Location: {city}, {country}"}
         render_pydeck_chart(layers=[scatter_layer], initial_view_state=view_state, tooltip=tooltip)
-        st.caption('The size of the bubble represents total number of attacks.  \
-                   \nThe color represents average duration of attack.')
+        
 
     with map2:
+        st.caption("The length of the extruded bar represents number of attacks from a city.")
         column_layer = get_column_layer(events_by_city_df)
         view_state = get_pydeck_viewport(longitude=12, latitude=-40, zoom=1.7, min_zoom=1, pitch=60.5, bearing=0)
         tooltip={"text": "Count: {count}\n City: {city} \n Country: {country}"}
         render_pydeck_chart(layers=[column_layer], initial_view_state=view_state, tooltip=tooltip)
-        st.caption("The length of the extruded bar represents number of attacks from a city.")
+        
 
     with map3:
+        st.caption("For each country, the :green[green] bars represent attacks on :green[cowrie] \
+                   while :blue[blue] represent :blue[conpot].")
         geo_layer = get_geojson_layer()
         column_layer =  get_globe_column_layer(globe_df)
         view_state = get_pydeck_viewport(longitude=0, latitude=0, zoom=0.8)
@@ -394,8 +398,7 @@ def display_map(ip_df_plot, events_by_city_df, globe_df):
         html_file = open("globe_view.html", 'r', encoding='utf-8')
         source_code = html_file.read() 
         st.components.v1.html(source_code, height=500, scrolling=True) 
-        st.caption("For each country, the :green[green] bars represent attacks on :green[cowrie] \
-                   while :blue[blue] represent :blue[conpot].")
+        
 
 def display_attack_details(ip_df_filtered):
     details = st.expander("Attack details :arrow_down_small:")
