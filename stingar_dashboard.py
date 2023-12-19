@@ -432,7 +432,7 @@ def run_dashboard():
         caption1, caption2 = st.columns(2)
         caption1.markdown("###### EXPLORING CYBER-ATTACKS ACROSS THE WORLD")
         caption2.markdown('<div style="text-align: right; direction: rtl; font-size: 14px;">'
-                    '<span style="color: green;">         Green</span>'
+                    '<span style="color: green;">Green</span>'
                     '<span style="color: grey;">represents top value.</span>'
                     '</div>', unsafe_allow_html=True)
      
