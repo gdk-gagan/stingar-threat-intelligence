@@ -2,24 +2,32 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pydeck as pdk
+from st_files_connection import FilesConnection
 import warnings
-import glob
-import os
 warnings.filterwarnings('ignore')
 
 def set_page_config():
     st.set_page_config(
         page_title='STINGAR Dashboard',
         layout='wide',
-        page_icon='stingar.png'
+        page_icon='https://github.com/gdk-gagan/stingar-threat-intelligence/blob/main/stingar.png'
         #page_icon='🌍'
     )
 
 @st.cache_data
 def load_data():
     try:     
-        all_files = glob.glob(os.path.join("data/clean", "*.csv"))
-        data = pd.concat((pd.read_csv(f) for f in all_files), ignore_index=True)
+        conn = st.connection('gcs', type=FilesConnection)
+        csv_data_list = []
+        for day in range(1, 31):
+            for hour in range(0, 24):
+                if (day==2 and hour in [10, 11]) or (day==3 and hour in [4])  or (day==13 and hour in [1]) or (day==18 and hour in [15]) or (day==19 and hour in [2, 15]) or (day==20 and hour in [6, 7, 8]) or (day==22 and hour in [12] or (day==24 and hour in [19]) or (day==27 and hour in [16]) or (day==30 and hour in [22])):
+                    continue
+                print(f"stingar-events/clean/events_2023_10_{day:02d}_{hour:02d}.csv")
+                d = conn.read(f"stingar-events/clean/events_2023_10_{day:02d}_{hour:02d}.csv", input_format="csv", ttl=600)
+                csv_data_list.append(d)
+
+        data = pd.concat(csv_data_list, ignore_index=True)
         df = data.loc[:, ['src_ip', 'src_port', 'dst_ip', 'event_time', 'start_time', 'end_time', 
                           'hostname', 'sensor_uuid',
                           'asn', 'asn_org', 'city', 'country', 'registered_country', 
@@ -103,7 +111,7 @@ def aggregate_data(df, start_date, end_date):
         return pd.DataFrame()
 
 def get_filtered_df(events_df):
-    st.sidebar.header("Event-level Filters")
+    st.sidebar.header("Filter by Events")
     with st.sidebar:
         # event filters
         st.markdown("##### Select time period")
@@ -137,7 +145,7 @@ def get_filtered_df(events_df):
 
     ip_df = aggregate_data(events_df_filtered, start_date, end_date)
 
-    st.sidebar.header("IP-level Filters")
+    st.sidebar.header("Filter by IP Addresses")
     with st.sidebar:
         # ip filters
         show_top_n_by_total = st.toggle(label="Plot top N IPs by total attacks")
