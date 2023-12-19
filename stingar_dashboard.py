@@ -10,8 +10,8 @@ def set_page_config():
     st.set_page_config(
         page_title='STINGAR Dashboard',
         layout='wide',
-        #page_icon='https://github.com/gdk-gagan/stingar-threat-intelligence/blob/main/stingar.png'
-        page_icon='🌍'
+        page_icon='https://github.com/gdk-gagan/stingar-threat-intelligence/blob/main/stingar.png?raw=true'
+        #page_icon='🌍'
     )
 
 @st.cache_data
