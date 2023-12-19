@@ -23,7 +23,7 @@ def load_data():
             for hour in range(0, 24):
                 if (day==2 and hour in [10, 11]) or (day==3 and hour in [4])  or (day==13 and hour in [1]) or (day==18 and hour in [15]) or (day==19 and hour in [2, 15]) or (day==20 and hour in [6, 7, 8]) or (day==22 and hour in [12] or (day==24 and hour in [19]) or (day==27 and hour in [16]) or (day==30 and hour in [22])):
                     continue
-                print(f"stingar-events/clean/events_2023_10_{day:02d}_{hour:02d}.csv")
+                # print(f"stingar-events/clean/events_2023_10_{day:02d}_{hour:02d}.csv")
                 d = conn.read(f"stingar-events/clean/events_2023_10_{day:02d}_{hour:02d}.csv", input_format="csv", ttl=600)
                 csv_data_list.append(d)
 
@@ -358,7 +358,7 @@ def display_map(ip_df_plot, events_by_city_df, globe_df):
     globe_df["app_color"] = globe_df["app"].apply(map_globe_color)
 
     with map1:
-        st.caption('The size of the bubble represents total number of events.  \
+        st.caption('The size of the bubble represents total number of attacks.  \
                    \nThe color represents average duration of attack.')
         scatter_layer = get_scatter_layer(ip_df_plot)
         view_state = get_pydeck_viewport(longitude=0, latitude=0, zoom=1, min_zoom=1, pitch=0, bearing=0)
@@ -412,7 +412,7 @@ def display_attack_details(ip_df_filtered):
                                         'countby_day', 'countby_dayofweek', 'countby_hourofday',
                                         'Usernames', 'Passwords']
     if ~ip_df_filtered.empty:
-        details.dataframe(ip_df_details.reset_index(drop=True), 
+        details.dataframe(ip_df_details.sort_values('total_events', ascending=False).reset_index(drop=True), 
                           column_config={"countby_day": st.column_config.LineChartColumn("Events per day", 
                                                                                          help="shows events per day in the selected time period"),
                                     "countby_dayofweek": st.column_config.BarChartColumn("Attacks by day of week", 
