@@ -10,8 +10,8 @@ def set_page_config():
     st.set_page_config(
         page_title='STINGAR Dashboard',
         layout='wide',
-        page_icon='https://github.com/gdk-gagan/stingar-threat-intelligence/blob/main/stingar.png'
-        #page_icon='🌍'
+        #page_icon='https://github.com/gdk-gagan/stingar-threat-intelligence/blob/main/stingar.png'
+        page_icon='🌍'
     )
 
 @st.cache_data
@@ -205,7 +205,7 @@ def display_metrics(events_df_filtered, ip_df_filtered):
         unique_ips = len(ip_df_filtered)
         index_of_max_total_events = ip_df_filtered['total_events'].idxmax()
         top_ip = ip_df_filtered.loc[index_of_max_total_events, 'src_ip']
-        top_hostname = ip_df_filtered.loc[index_of_max_total_events, 'hostname']
+        #top_hostname = ip_df_filtered.loc[index_of_max_total_events, 'hostname']
         kpi2.metric(
             label="Total IP Addresses",
             value=unique_ips,
@@ -253,7 +253,6 @@ def get_scatter_layer(ip_df_plot):
             radius_min_pixels=1,
             radius_max_pixels=100,
             get_position="[longitude, latitude]",
-            # get_radius="normValue",
             get_radius="norm_size",
             get_fill_color="fill_color",
         )
