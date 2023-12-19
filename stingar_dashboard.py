@@ -429,11 +429,11 @@ def run_dashboard():
         set_page_config()
         # Dashboard title
         st.title("STINGAR THREAT INTELLIGENCE")
-        caption1, _, caption2 = st.columns(3)
+        caption1, caption2 = st.columns(2)
         caption1.markdown("###### EXPLORING CYBER-ATTACKS ACROSS THE WORLD")
         caption2.markdown('<div style="text-align: right; direction: rtl; font-size: 14px;">'
-                    '<span style="color: green;">Green</span>  '
-                    '<span style="color: grey;">represents top value</span>'
+                    '<span style="color: green;">         Green</span>'
+                    '<span style="color: grey;">represents top value.</span>'
                     '</div>', unsafe_allow_html=True)
      
         # load data
