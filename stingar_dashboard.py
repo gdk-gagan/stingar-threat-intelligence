@@ -413,16 +413,16 @@ def display_attack_details(ip_df_filtered):
                                         'ASN Number', 'Asn Org', 'City', 'Country', 
                                         'countby_day', 'countby_dayofweek', 'countby_hourofday',
                                         'Usernames', 'Passwords']
-    if ~ip_df_filtered.empty:
-        details.dataframe(ip_df_details.sort_values('total_events', ascending=False).reset_index(drop=True), 
+    # if ~ip_df_filtered.empty:
+    details.dataframe(ip_df_details.sort_values('total_events', ascending=False).reset_index(drop=True), 
                           column_config={"countby_day": st.column_config.LineChartColumn("Events per day", 
                                                                                          help="shows events per day in the selected time period"),
                                     "countby_dayofweek": st.column_config.BarChartColumn("Attacks by day of week", 
                                                                                          help="shows events by day of week, starts from Monday - Sunday"),
                                     "countby_hourofday": st.column_config.LineChartColumn("Hour of day sparkline", 
                                                                                           help="shows events by hour of day from 0 - 23")})
-    else:
-        details.write("No data for selected filters.")
+    # else:
+    #     details.write("No data for selected filters.")
 
 def run_dashboard():
     try:
@@ -430,7 +430,7 @@ def run_dashboard():
         # Dashboard title
         st.title("STINGAR THREAT INTELLIGENCE")
         caption1, _, caption2 = st.columns(3)
-        caption1.markdown("###### EXPLORING ATTACKS ACROSS THE WORLD")
+        caption1.markdown("###### EXPLORING CYBER-ATTACKS ACROSS THE WORLD")
         caption2.markdown('<div style="text-align: right; direction: rtl; font-size: 14px;">'
                     '<span style="color: green;">Green</span>  '
                     '<span style="color: grey;">represents top value</span>'
