@@ -1,4 +1,4 @@
 pydeck==0.8.1b0
 streamlit==1.28.1
-git+https://github.com/streamlit/files-connection
 gcsfs==1.2.0
+st-files-connection=1.0.0
